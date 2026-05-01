@@ -2,6 +2,7 @@ import type { Route } from "./+types/home";
 import { useState, useRef, useEffect } from "react";
 import { useCharactersStore } from "~/stores/characters-store";
 import { useNavigate } from "react-router";
+import { Link } from "react-router";
 
 export default function Favourites() {
     const { favourites, error, toggleFavourite, loadFavourites } = useCharactersStore();
@@ -30,32 +31,37 @@ export default function Favourites() {
                             display: "flex", alignItems: "center", justifyContent: "space-between",
                             transition: "all 0.2s"
                         }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                                <div style={{
-                                    width: "42px", height: "42px", borderRadius: "50%",
-                                    background: character.favourite ? "#1D9E75" : "#9FE1CB",
-                                    display: "flex", alignItems: "center", justifyContent: "center",
-                                    fontWeight: 700, fontSize: "13px", // ← CAMBIO 1: añadido fontSize
-                                    color: character.favourite ? "#E1F5EE" : "#0F6E56"
-                                }}>
-                                    {character.name.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase()} {/* ← CAMBIO 2: iniciales */}
-                                </div>
-                                <div>
-                                    <div style={{ fontWeight: 600 }}>{character.name}</div>
-                                    <div style={{ display: "flex", alignItems: "center", gap: "6px" }}> {/* ← CAMBIO 3: fila con badge */}
-                                        <span style={{
-                                            fontSize: "11px", fontWeight: 700, padding: "2px 8px", borderRadius: "20px",
-                                            background: character.status === "Alive" ? "#E1F5EE" : character.status === "Dead" ? "#FAECE7" : "#F1EFE8",
-                                            color: character.status === "Alive" ? "#0F6E56" : character.status === "Dead" ? "#993C1D" : "#5F5E5A",
-                                        }}>
-                                            {character.status}
-                                        </span>
-                                        <span style={{ fontSize: "12px", color: character.favourite ? "#0F6E56" : "#888" }}>
-                                            {character.favourite ? "★ Favorito" : `#${character.id}`}
-                                        </span>
+                            <Link
+                                to={`/product-details/${character.id}`}
+                                style={{ textDecoration: "none", color: "inherit" }}
+                            >
+                                <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                                    <div style={{
+                                        width: "42px", height: "42px", borderRadius: "50%",
+                                        background: character.favourite ? "#1D9E75" : "#9FE1CB",
+                                        display: "flex", alignItems: "center", justifyContent: "center",
+                                        fontWeight: 700, fontSize: "13px", // ← CAMBIO 1: añadido fontSize
+                                        color: character.favourite ? "#E1F5EE" : "#0F6E56"
+                                    }}>
+                                        {character.name.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase()} {/* ← CAMBIO 2: iniciales */}
+                                    </div>
+                                    <div>
+                                        <div style={{ fontWeight: 600 }}>{character.name}</div>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}> {/* ← CAMBIO 3: fila con badge */}
+                                            <span style={{
+                                                fontSize: "11px", fontWeight: 700, padding: "2px 8px", borderRadius: "20px",
+                                                background: character.status === "Alive" ? "#E1F5EE" : character.status === "Dead" ? "#FAECE7" : "#F1EFE8",
+                                                color: character.status === "Alive" ? "#0F6E56" : character.status === "Dead" ? "#993C1D" : "#5F5E5A",
+                                            }}>
+                                                {character.status}
+                                            </span>
+                                            <span style={{ fontSize: "12px", color: character.favourite ? "#0F6E56" : "#888" }}>
+                                                {character.favourite ? "★ Favorito" : `#${character.id}`}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
 
                             <button onClick={() => toggleFavourite(character.id)} style={{
                                 background: character.favourite ? "#1D9E75" : "#f5f5f5",
